@@ -4,9 +4,9 @@ import { MODAL_TEMPLATES } from "../constants/modalTemplates";
 import { View } from "./View";
 
 export class ModalView extends View {
-  getTemplate(template) {
+  getTemplate(template, formData) {
     const templates = {
-      [MODAL_TEMPLATES.todoFormTemplate]: TodoForm(),
+      [MODAL_TEMPLATES.todoFormTemplate]: TodoForm(formData),
     };
 
     return templates[template];
@@ -44,7 +44,7 @@ export class ModalView extends View {
 
   render({ modalModel }) {
     const { template, data } = modalModel;
-    const templateMarkup = this.getTemplate(template);
+    const templateMarkup = this.getTemplate(template, data.formData);
 
     if (!data.isOpen) return "";
 

@@ -1,4 +1,8 @@
 export const INITIAL_STATE = {
+  filterControls: {
+    sorbBy: sorbBy[0],
+    filters: [],
+  },
   tasks: {
     data: [],
   },

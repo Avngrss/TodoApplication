@@ -35,4 +35,19 @@ export class TodoModel extends Model {
     const items = this.getAllItems().filter((item) => item.id !== id);
     this.setState({ ...this.state, data: this.setItems(items) });
   }
+
+  update(id, data) {
+    this.setState({
+      ...this.state,
+      data: this.setItems(
+        this.getAllItems().map((item) => {
+          if (item.id === id) {
+            return Object.assign(item, data);
+            // return { ...item, ...data };
+          }
+          return item;
+        })
+      ),
+    });
+  }
 }

@@ -17,23 +17,49 @@ export class TodoView extends View {
     });
   }
 
+  onEditTask(callback) {
+    this.el.addEventListener("click", (evt) => {
+      if (evt.target.closest(".edit-btn")) {
+        callback(evt.target.dataset.id);
+      }
+    });
+  }
+
+  onChahgeCheckox(callback) {
+    this.el.addEventListener("change", (evt) => {
+      if (evt.target.matches(".check")) {
+        callback(evt.target.dataset.id, evt.target.checked);
+      }
+    });
+  }
+
   renderTasks(tasks) {
     return tasks
       .map((item) => {
         const isChecked = item.isCompleted ? "checked" : "";
+        const isExpired = new Date() > new Date(item.planToFinish);
+        const background = isExpired ? "bg-red-400/30" : "bg-slate-500";
 
         return `
-          <div class="rounded bg-slate-700 p-2 border border-slate-500">
+          <div class="rounded ${background} p-2 border border-slate-500">
             <div class="flex justify-between items-center">
 
               <div class="flex gap-2">
-                <input type="checkbox" ${isChecked} />
-                <h3 class="text-lg text-white line-clamp-2">${item.title}</h3>
+                <input type="checkbox" class="check" data-id="${
+                  item.id
+                }" ${isChecked} />
+                <h3 class="${
+                  item.isCompleted ? "line-through" : ""
+                } "text-lg text-white line-clamp-2">${item.title}</h3>
               </div>
 
               <div class="flex gap-2">
-                <button class="bg-sky-500 px-2 rounded text-white">Edit</button>
-                <button data-id="${item.id}" class="delete-btn bg-red-500 px-2 text-white rounded">Delete</button>
+                <button data-id="${
+                  item.id
+                }" class="bg-sky-500 px-2 rounded edit-btn text-white">Edit</button>
+                <button data-id="${
+                  item.id
+                }" class="delete-btn bg-red-500 px-2 text-white rounded">Delete</button>
               </div>
 
             </div>
